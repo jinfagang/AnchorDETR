@@ -21,7 +21,7 @@ import torch
 from torch.nn import grad  # noqa: F401
 
 from torch._jit_internal import boolean_dispatch, List, Optional, _overload
-from torch._overrides import has_torch_function, handle_torch_function
+from torch.overrides import has_torch_function, handle_torch_function
 
 
 Tensor = torch.Tensor
