@@ -1,3 +1,27 @@
+# Anchor DETR
+
+I try convert anchor detr to onnx. I found some error got:
+
+```
+RuntimeError: 0INTERNAL ASSERT FAILED at "../torch/csrc/jit/ir/alias_analysis.cpp":533, please report a bug to PyTorch. We don't have an op for aten::fill_ but it isn't a special case.  Argument types: Tensor, bool, 
+
+```
+
+this is occured when:
+
+```
+python3 detr_pth2onnx.py --model_dir ./weights/anchor-detr_r50_c5.pth
+```
+
+
+
+
+
+
+
+
+
+
 **Anchor DETR**: Query Design for Transformer-Based Detector
 ========
 
