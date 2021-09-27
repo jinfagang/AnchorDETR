@@ -94,23 +94,29 @@ class AnchorDETR(nn.Module):
             samples = nested_tensor_from_tensor_list(samples)
         features = self.backbone(samples)
 
-        srcs = []
-        masks = []
-        for l, feat in enumerate(features):
-            src, mask = feat.decompose()
-            srcs.append(self.input_proj[l](src).unsqueeze(1))
-            masks.append(mask)
-            assert mask is not None
+        # srcs = []
+        # masks = []
+        # for l, feat in enumerate(features):
+        #     src, mask = feat.decompose()
+        #     srcs.append(self.input_proj[l](src).unsqueeze(1))
+        #     masks.append(mask)
+        #     assert mask is not None
 
-        srcs = torch.cat(srcs, dim=1)
+        # srcs = torch.cat(srcs, dim=1)
+
+        # print('src shape: ', srcs.shape)
+
+        src, masks = features[-1].decompose()
+        srcs = self.input_proj[0](src).unsqueeze(0)
 
         outputs_class, outputs_coord = self.transformer(srcs, masks)
+        return outputs_class, outputs_coord
 
-        out = {'pred_logits': outputs_class[-1], 'pred_boxes': outputs_coord[-1]}
-        if self.aux_loss:
-            out['aux_outputs'] = self._set_aux_loss(outputs_class, outputs_coord)
+        # out = {'pred_logits': outputs_class[-1], 'pred_boxes': outputs_coord[-1]}
+        # if self.aux_loss:
+        #     out['aux_outputs'] = self._set_aux_loss(outputs_class, outputs_coord)
 
-        return out
+        # return out
 
     @torch.jit.unused
     def _set_aux_loss(self, outputs_class, outputs_coord):

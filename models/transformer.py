@@ -161,12 +161,15 @@ class Transformer(nn.Module):
                 assert reference.shape[-1] == 2
                 tmp[..., :2] += reference
             outputs_coord = tmp.sigmoid()
-            outputs_classes.append(outputs_class[None,])
-            outputs_coords.append(outputs_coord[None,])
+            # outputs_classes.append(outputs_class[None,])
+            # outputs_coords.append(outputs_coord[None,])
+            outputs_classes.append(outputs_class.unsqueeze(0))
+            outputs_coords.append(outputs_coord.unsqueeze(0))
             if self.refine_box:
                 reference_points = outputs_coord
 
         output = torch.cat(outputs_classes, dim=0), torch.cat(outputs_coords, dim=0)
+        print('output shape: ', output[1].shape)
 
         return output
 
